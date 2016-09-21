@@ -31,4 +31,4 @@ app.get('/login', (req, res) => {
     }, (err, facebookRes) => {
         res.redirect('/');
     });
-})
+}) 
