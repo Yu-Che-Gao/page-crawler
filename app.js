@@ -2,6 +2,7 @@ const express = require('express');
 const app = express();
 const request = require('request');
 const graph = require('fbgraph');
+const port = process.env.PORT;
 const conf = {
     client_id: '296453647403892',
     client_secret: '27ba5397318455347054ae151e4cf622',
@@ -10,7 +11,7 @@ const conf = {
 
 app.get('/', (req, res) => {
     graph.get('me?fields=id,name', (err, res) => {
-        if(err) res.redirect('/login');
+        if (err) res.redirect('/login');
         res.send(res);
     })
 })
@@ -31,4 +32,6 @@ app.get('/login', (req, res) => {
     }, (err, facebookRes) => {
         res.redirect('/');
     });
-}) 
+})
+
+app.listen(port, () => { console.log('listening on port ' + port) })
