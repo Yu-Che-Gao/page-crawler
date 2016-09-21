@@ -2,7 +2,6 @@ const express = require('express');
 const app = express();
 const request = require('request');
 const graph = require('fbgraph');
-const url = 'https://graph.facebook.com/v2.7/1612577928971434/posts?access_token=' + accessToken;
 const conf = {
     client_id: '296453647403892',
     client_secret: '27ba5397318455347054ae151e4cf622',
