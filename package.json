@@ -2,7 +2,7 @@
   "name": "fb-page-crawler",
   "version": "0.0.1",
   "main": "app.js",
-  "author": "Steven Gao",
+  "author": "",
   "private": true,
   "engines": {
     "node": "6.5.0"
