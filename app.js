@@ -1,37 +1,32 @@
 const express = require('express');
 const app = express();
 const request = require('request');
-const graph = require('fbgraph');
-const port = process.env.PORT;
+const fs = require('fs');
+const port = process.env.PORT || 3000;
 const conf = {
     client_id: '296453647403892',
     client_secret: '27ba5397318455347054ae151e4cf622',
-    redirect_uri: 'http://fb-page-crawler.herokuapp.com/callback'
+    crawler_page: '1612577928971434'
 };
+var url = 'https://graph.facebook.com/v2.7/' + conf.crawler_page + '/posts?access_token=' + conf.client_id + '|' + conf.client_secret;
+requestPages(url, 1)
 
-app.get('/', (req, res) => {
-    graph.get('me?fields=id,name', (error, response) => {
-        //if (error) res.redirect('/login');
-        res.send(res);
-    })
-})
+function requestPages(url, times) {
+    if (times == 10000) return;
+    else {
+        request(url, (error, response, body) => {
+            console.log(url);
 
-app.get('/login', (req, res) => {
-    let authUrl = graph.getOauthUrl({
-        client_id: conf.client_id
-        , redirect_uri: conf.redirect_uri
-    });
+            fs.writeFile(__dirname + '/' + conf.crawler_page + '/pages_' + conf.crawler_page + '_' + times + '.json', body, (error) => {
+                if (error) console.log(error);
+            })
+            let json = JSON.parse(body);
+            let next = json.paging.next;
+            setTimeout(function() { 
+                requestPages(next, ++times);
+            }, 1000);
+            
+        })
+    }
+}
 
-    res.redirect(authUrl);
-
-    graph.authorize({
-        client_id: conf.client_id
-        , redirect_uri: conf.redirect_uri
-        , client_secret: conf.client_secret
-        , code: req.query.code
-    }, (err, facebookRes) => {
-        res.redirect('/');
-    });
-})
-
-app.listen(port, () => { console.log('listening on port ' + port) })
