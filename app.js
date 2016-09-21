@@ -11,7 +11,7 @@ const conf = {
 
 app.get('/', (req, res) => {
     graph.get('me?fields=id,name', (error, response) => {
-        if (error) res.redirect('/login');
+        //if (error) res.redirect('/login');
         res.send(res);
     })
 })
