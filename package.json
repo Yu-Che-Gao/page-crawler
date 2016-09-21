@@ -1,0 +1,13 @@
+{
+  "name": "fb-page-crawler",
+  "version": "0.0.1",
+  "main": "app.js",
+  "author": "Steven Gao",
+  "private": true,
+  "engines": {
+    "node": "6.5.0"
+  },
+  "dependencies": {
+    "express": "~4.9.0"
+  }
+}
